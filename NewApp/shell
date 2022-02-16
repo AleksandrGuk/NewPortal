@@ -1,0 +1,42 @@
+from news.models import *
+u1 = User.objects.create_user(username='Miron')
+u2 = User.objects.create_user(username='Alex')
+Author.objects.create(authorUser=u1)
+Author.objects.create(authorUser=u2)
+Category.objects.create(name='Auto')
+Category.objects.create(name='Sport')
+Category.objects.create(name='IT')
+Category.objects.create(name='Politic')
+Miron = Author.objects.get(id=1)
+Post.objects.create(author = Miron, categoryType = 'NS', title = 'Песков сообщил о готовности Путина к переговорам по ситуации на Украине',  text = 'Представитель Кремля Дмитрий Песков уточнил, что президент Путин «всегда требовал переговоров и дипломатии')
+Post.objects.create(author = Miron, categoryType = 'NS', title = 'Минобороны РФ: в российских территориальных водах вблизи острова Уруп обнаружена подлодка США',  text = 'В Министерстве обороны РФ уточнили, что в связи с произошедшим инцидентом в ведомство был вызван военный атташе при американском посольстве в Москве.')
+Alex = Author.objects.get(id=2)
+Post.objects.create(author = Alex, categoryType = 'AR', title = 'Российской лыжнице Веронике Степановой подарят квартиру за победу на Олимпиаде',  text = 'Глава Камчатского края Владимир Солодов поручил выделить квартиру лыжнице Веронике Степановой.')
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=4))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=3))
+u3 = User.objects.create_user(username='Anton')
+u4 = User.objects.create_user(username='Darya')
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser = Author.objects.get(id=2).authorUser, text = 'Не договорятся')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser = Author.objects.get(id=1).authorUser, text = 'МИР')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser = Author.objects.get(id=2).authorUser, text = 'Умница!')
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).rating
+Post.objects.get(id=1).like()
+Post.objects.get(id=2).dislike()
+Comment.objects.get(id=3).dislike()
+Comment.objects.get(id=4).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=1).like()
+a1 = Author.objects.get(id=1)
+a1.update_rating()
+a1.ratingAuthor
+a2 = Author.objects.get(id=2)
+a2.update_rating()
+a2.ratingAuthor
+a = Author.objects.order_by('-ratingAuthor')[:1]
+a
+for i in a:
+i.ratingAuthor
+i.authorUser.username
